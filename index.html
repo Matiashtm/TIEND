@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leer Archivo TXT</title>
+</head>
+<body>
+    <h1>Contenido del archivo TXT</h1>
+    <pre id="contenido"></pre>
+
+    <script>
+        // Función para leer el archivo .txt
+        fetch('datos.txt')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('contenido').textContent = data;
+            })
+            .catch(error => console.error('Error al leer el archivo:', error));
+    </script>
+</body>
+</html>
