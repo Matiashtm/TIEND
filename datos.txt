@@ -1,12 +1,13 @@
-PRODUCTO 1, COD0001, DESCRIPCION PRODUCTO 1
-PRODUCTO 2, COD0002, DESCRIPCION PRODUCTO 2
-PRODUCTO 3, COD0003, DESCRIPCION PRODUCTO 3
-PRODUCTO 4, COD0004, DESCRIPCION PRODUCTO 4
-PRODUCTO 5, COD0005, DESCRIPCION PRODUCTO 5
-PRODUCTO 6, COD0006, DESCRIPCION PRODUCTO 6
-PRODUCTO 7, COD0007, DESCRIPCION PRODUCTO 7
-PRODUCTO 8, COD0008, DESCRIPCION PRODUCTO 8
-PRODUCTO 9, COD0009, DESCRIPCION PRODUCTO 9
-PRODUCTO 10, COD00010, DESCRIPCION PRODUCTO 10
-PRODUCTO 11, COD00011, DESCRIPCION PRODUCTO 11
-PRODUCTO 12, COD00012, DESCRIPCION PRODUCTO 12
+CAMISETA ALGODÓN, COD0001, Camiseta de algodón suave y cómoda, ideal para uso diario.
+JEAN DESTROYED, COD0002, Jean con detalles desgastados, perfecto para un look casual.
+BUZO CANGURO, COD0003, Buzo con capucha y bolsillo frontal, ideal para el invierno.
+CHAQUETA DE DENIM, COD0004, Chaqueta de mezclilla clásica, esencial para cualquier armario.
+PANTALÓN DE CHÁNDAL, COD0005, Pantalón cómodo para actividades deportivas y descanso.
+CAMISA DE LINO, COD0006, Camisa ligera y transpirable, perfecta para el verano.
+SUDADERA CON CAPUCHA, COD0007, Sudadera cómoda y cálida, con capucha ajustable.
+CHALECO TÉCNICO, COD0008, Chaleco resistente al agua, ideal para actividades al aire libre.
+FALDA DE CUERO, COD0009, Falda de cuero sintético, con un toque moderno y elegante.
+CAMPERA DE NYLON, COD0010, Camperón ligero y resistente al viento, para días frescos.
+CAMISA DE MANGA LARGA, COD0011, Camisa de manga larga, perfecta para ocasiones formales o informales.
+PANTALONES DE CARGO, COD0012, Pantalones con múltiples bolsillos, ideales para aventuras al aire libre.
+ABRIGO DE LANA, COD0013, Abrigo cálido y elegante, ideal para climas fríos.
