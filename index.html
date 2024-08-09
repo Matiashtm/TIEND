@@ -150,7 +150,7 @@
 <body>
 
     <div class="banner">
-        <img src="Logo.jpg" alt="Logo">
+        <img src="Logo.JPG" alt="Logo">
         <h1>Catálogo de Productos</h1>
     </div>
 
@@ -197,19 +197,22 @@
                 productos.forEach((producto, index) => {
                     const [nombre, codigo, descripcion] = producto.split(', ');
                     const numeroFoto = index + 1; // Foto1, Foto2, etc.
+                    
+                    // Asignar nombre correcto para las fotos
+                    const fotoNombre = `foto${numeroFoto}.JPG`;
 
                     const productoDiv = document.createElement('div');
                     productoDiv.classList.add('producto');
                     productoDiv.dataset.nombre = nombre;
                     productoDiv.dataset.codigo = codigo;
                     productoDiv.dataset.descripcion = descripcion;
-                    productoDiv.dataset.foto = `foto${numeroFoto}.jpg`;
+                    productoDiv.dataset.foto = fotoNombre;
 
                     productoDiv.innerHTML = `
-                        <img src="${productoDiv.dataset.foto}" alt="Imagen del producto">
+                        <img src="${fotoNombre}" alt="Imagen del producto">
                         <h2>${nombre}</h2>
                         <p>Código: ${codigo}</p>
-                        <button onclick="mostrarConsulta('${nombre}', '${codigo}', '${descripcion}', '${productoDiv.dataset.foto}')">Consultar</button>
+                        <button onclick="mostrarConsulta('${nombre}', '${codigo}', '${descripcion}', '${fotoNombre}')">Consultar</button>
                     `;
 
                     catalogoDiv.appendChild(productoDiv);
@@ -264,4 +267,3 @@
 
 </body>
 </html>
-
