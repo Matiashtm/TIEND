@@ -3,20 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leer Archivo TXT</title>
+    <title>Catálogo Online</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .banner {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        .catalogo {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .producto {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .producto img {
+            width: 100%;
+            height: 150px;
+            background-color: #ccc; /* Imagen temporal como cuadrado gris */
+        }
+
+        .producto h2 {
+            font-size: 18px;
+            margin: 10px 0 5px;
+        }
+
+        .producto p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .producto button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            width: 80%;
+            border-radius: 5px;
+        }
+
+        .producto button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h1>Contenido del archivo TXT</h1>
-    <pre id="contenido"></pre>
+
+    <div class="banner">
+        Catálogo de Productos
+    </div>
+
+    <div class="catalogo" id="catalogo">
+        <!-- Los productos se cargarán aquí dinámicamente -->
+    </div>
 
     <script>
-        // Función para leer el archivo .txt
-        fetch('datos.txt')
+        // URL del archivo datos.txt
+        const datosUrl = 'datos.txt';
+
+        // Función para cargar el archivo datos.txt
+        fetch(datosUrl)
             .then(response => response.text())
             .then(data => {
-                document.getElementById('contenido').textContent = data;
+                const productos = data.split('\n');
+                const catalogoDiv = document.getElementById('catalogo');
+
+                productos.forEach(producto => {
+                    const [nombre, codigo] = producto.split(', ');
+
+                    const productoDiv = document.createElement('div');
+                    productoDiv.classList.add('producto');
+
+                    productoDiv.innerHTML = `
+                        <img src="#" alt="Imagen del producto">
+                        <h2>${nombre}</h2>
+                        <p>Código: ${codigo}</p>
+                        <button>Consultar</button>
+                    `;
+
+                    catalogoDiv.appendChild(productoDiv);
+                });
             })
-            .catch(error => console.error('Error al leer el archivo:', error));
+            .catch(error => console.error('Error al cargar el archivo:', error));
     </script>
+
 </body>
 </html>
