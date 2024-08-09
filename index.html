@@ -17,7 +17,19 @@
             color: white;
             text-align: center;
             padding: 20px;
-            font-size: 24px;
+            position: relative;
+        }
+
+        .banner img {
+            width: 100px; /* Ajusta el tamaño según sea necesario */
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .banner h1 {
+            margin: 0;
+            padding-top: 60px; /* Ajusta el espacio para la imagen */
         }
 
         .catalogo {
@@ -51,6 +63,7 @@
         .producto p {
             font-size: 14px;
             color: #777;
+            margin: 0 0 10px;
         }
 
         .producto button {
@@ -68,16 +81,106 @@
         .producto button:hover {
             background-color: #45a049;
         }
+
+        /* Estilos para el div de consulta */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .consulta {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .consulta img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .consulta h2 {
+            margin: 10px 0;
+        }
+
+        .consulta input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .consulta select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .consulta button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .consulta button:hover {
+            background-color: #45a049;
+        }
+
+        .consulta .medios-pago, .consulta .otras-consultas {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
     <div class="banner">
-        Catálogo de Productos
+        <img src="logo.jpg" alt="Logo">
+        <h1>Catálogo de Productos</h1>
     </div>
 
     <div class="catalogo" id="catalogo">
         <!-- Los productos se cargarán aquí dinámicamente -->
+    </div>
+
+    <!-- Div para la consulta -->
+    <div class="overlay" id="consulta-overlay">
+        <div class="consulta">
+            <img id="consulta-img" src="#" alt="Imagen del producto">
+            <h2 id="consulta-titulo">Título del Producto</h2>
+            <p id="consulta-codigo">Código: </p>
+            <p id="consulta-descripcion">Descripción: </p>
+            <input type="text" id="nombre" placeholder="Tu nombre">
+            <select id="consulta-opciones">
+                <option value="">Selecciona una opción</option>
+                <option value="consultar-precio">Consultar Precio</option>
+                <option value="consultar-disponibilidad">Consultar Disponibilidad</option>
+                <option value="consultar-medios-pago">Consultar Medios de Pago Disponibles</option>
+                <option value="otras-consultas">Otras Consultas</option>
+            </select>
+            <div class="medios-pago">
+                <p>Los medios de pago disponibles son en efectivo y transferencias (Mercado Pago o transferencia bancaria).</p>
+            </div>
+            <div class="otras-consultas">
+                <input type="text" id="texto-consulta" placeholder="Tu consulta (hasta 100 caracteres)" maxlength="100">
+            </div>
+            <button id="enviar-consulta">Enviar Consulta</button>
+        </div>
     </div>
 
     <script>
@@ -91,24 +194,74 @@
                 const productos = data.split('\n');
                 const catalogoDiv = document.getElementById('catalogo');
 
-                productos.forEach(producto => {
-                    const [nombre, codigo] = producto.split(', ');
+                productos.forEach((producto, index) => {
+                    const [nombre, codigo, descripcion] = producto.split(', ');
+                    const numeroFoto = index + 1; // Foto1, Foto2, etc.
 
                     const productoDiv = document.createElement('div');
                     productoDiv.classList.add('producto');
+                    productoDiv.dataset.nombre = nombre;
+                    productoDiv.dataset.codigo = codigo;
+                    productoDiv.dataset.descripcion = descripcion;
+                    productoDiv.dataset.foto = `foto${numeroFoto}.jpg`;
 
                     productoDiv.innerHTML = `
-                        <img src="#" alt="Imagen del producto">
+                        <img src="${productoDiv.dataset.foto}" alt="Imagen del producto">
                         <h2>${nombre}</h2>
                         <p>Código: ${codigo}</p>
-                        <button>Consultar</button>
+                        <button onclick="mostrarConsulta('${nombre}', '${codigo}', '${descripcion}', '${productoDiv.dataset.foto}')">Consultar</button>
                     `;
 
                     catalogoDiv.appendChild(productoDiv);
                 });
             })
             .catch(error => console.error('Error al cargar el archivo:', error));
+
+        // Función para mostrar el div de consulta
+        function mostrarConsulta(nombre, codigo, descripcion, foto) {
+            document.getElementById('consulta-overlay').style.display = 'flex';
+            document.getElementById('consulta-img').src = foto;
+            document.getElementById('consulta-titulo').textContent = nombre;
+            document.getElementById('consulta-codigo').textContent = `Código: ${codigo}`;
+            document.getElementById('consulta-descripcion').textContent = `Descripción: ${descripcion}`;
+        }
+
+        // Mostrar/ocultar secciones según la opción seleccionada
+        document.getElementById('consulta-opciones').addEventListener('change', function() {
+            const valor = this.value;
+            document.querySelector('.medios-pago').style.display = valor === 'consultar-medios-pago' ? 'block' : 'none';
+            document.querySelector('.otras-consultas').style.display = valor === 'otras-consultas' ? 'block' : 'none';
+        });
+
+        // Enviar consulta
+        document.getElementById('enviar-consulta').addEventListener('click', function() {
+            const nombre = document.getElementById('nombre').value;
+            const opcion = document.getElementById('consulta-opciones').value;
+            const textoConsulta = document.getElementById('texto-consulta').value;
+            const titulo = document.getElementById('consulta-titulo').textContent;
+            const codigo = document.getElementById('consulta-codigo').textContent;
+            const descripcion = document.getElementById('consulta-descripcion').textContent;
+
+            let mensaje = `Nombre: ${nombre}\nTítulo: ${titulo}\nCódigo: ${codigo}\nDescripción: ${descripcion}\nOpción: ${opcion}`;
+
+            if (opcion === 'otras-consultas') {
+                mensaje += `\nConsulta: ${textoConsulta}`;
+            }
+
+            const numeroWhatsApp = '1234567890'; // Reemplaza con tu número de WhatsApp
+            const url = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensaje)}`;
+
+            window.open(url, '_blank');
+        });
+
+        // Cerrar overlay al hacer clic fuera del div de consulta
+        document.getElementById('consulta-overlay').addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.style.display = 'none';
+            }
+        });
     </script>
 
 </body>
 </html>
+
