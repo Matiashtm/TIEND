@@ -11,19 +11,23 @@
             padding: 0;
             background-color: #FFDCFD;
         }
- 
-        .banner {
-            background-color: #4B2E4A;
-            padding: 20px;
-            position: relative;
-        }
+             .banner {
+                background-color: #4B2E4A;
+                color: white;
+                text-align: center;
+                padding: 20px;
+                position: relative;
+                overflow: hidden; /* Asegura que el contenido no desborde el banner */
+            }
+            
+            .banner img {
+                width: 150px; /* Ajusta el tamaño según sea necesario */
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
 
-        .banner img {
-            width: 150px; /* Ajusta el tamaño según sea necesario */
-            position: center;
-            top: 5px;
-            left: 5px;
-        }
 
         .banner h1 {
             margin: 0;
