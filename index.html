@@ -11,30 +11,30 @@
             padding: 0;
             background-color: #FFDCFD;
         }
-.banner {
-    background-color: #333;
-    color: white;
-    text-align: center; /* Centra el texto horizontalmente */
-    padding: 20px;
-    position: relative;
-    display: flex;
-    flex-direction: column; /* Apila la imagen y el texto verticalmente */
-    justify-content: center; /* Centra el contenido verticalmente */
-    align-items: center; /* Centra el contenido horizontalmente */
-    min-height: 200px; /* Ajusta según sea necesario */
-}
+        .banner {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
 
-.banner img {
-    width: 70%; /* Ajusta el tamaño relativo al ancho del contenedor */
-    max-width: 150px; /* Ajusta el tamaño máximo según sea necesario */
-    height: auto; /* Mantiene la proporción de la imagen */
-    margin-bottom: 10px; /* Espacio entre la imagen y el texto */
-}
+        .banner img {
+            width: 70%;
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+        }
 
-.banner h1 {
-    margin: 0;
-    font-size: 2rem; /* Ajusta el tamaño del texto según sea necesario */
-}
+        .banner h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
 
         .catalogo {
             display: flex;
@@ -70,6 +70,12 @@
             margin: 0 0 10px;
         }
 
+        .producto .precio {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
         .producto button {
             background-color: #4CAF50;
             color: white;
@@ -86,7 +92,6 @@
             background-color: #45a049;
         }
 
-        /* Estilos para el div de consulta */
         .overlay {
             position: fixed;
             top: 0;
@@ -119,13 +124,7 @@
             margin: 10px 0;
         }
 
-        .consulta input[type="text"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        .consulta select {
+        .consulta input[type="number"] {
             width: calc(100% - 20px);
             padding: 10px;
             margin-bottom: 10px;
@@ -145,10 +144,6 @@
         .consulta button:hover {
             background-color: #45a049;
         }
-
-        .consulta .medios-pago, .consulta .otras-consultas {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -159,7 +154,6 @@
     </div>
    
     <div class="catalogo" id="catalogo">
-        
         <!-- Los productos se cargarán aquí dinámicamente -->
     </div>
 
@@ -170,21 +164,8 @@
             <h2 id="consulta-titulo">Título del Producto</h2>
             <p id="consulta-codigo">Código: </p>
             <p id="consulta-descripcion">Descripción: </p>
-            <input type="text" id="nombre" placeholder="Tu nombre">
-            <select id="consulta-opciones">
-                <option value="">Selecciona una opción</option>
-                <option value="consultar-precio">Consultar Precio</option>
-                <option value="consultar-disponibilidad">Consultar Disponibilidad</option>
-                <option value="consultar-medios-pago">Consultar Medios de Pago Disponibles</option>
-                <option value="otras-consultas">Otras Consultas</option>
-            </select>
-            <div class="medios-pago">
-                <p>Los medios de pago disponibles son en efectivo y transferencias (Mercado Pago o transferencia bancaria).</p>
-            </div>
-            <div class="otras-consultas">
-                <input type="text" id="texto-consulta" placeholder="Tu consulta (hasta 100 caracteres)" maxlength="100">
-            </div>
-            <button id="enviar-consulta">Enviar Consulta por Whatsapp</button>
+            <input type="number" id="cantidad" placeholder="Cantidad" min="1" value="1">
+            <button id="agregar-carrito">Agregar al Carrito</button>
         </div>
     </div>
 
@@ -200,10 +181,8 @@
                 const catalogoDiv = document.getElementById('catalogo');
 
                 productos.forEach((producto, index) => {
-                    const [nombre, codigo, descripcion] = producto.split(', ');
-                    const numeroFoto = index + 1; // Foto1, Foto2, etc.
-                    
-                    // Asignar nombre correcto para las fotos
+                    const [nombre, codigo, descripcion, precio] = producto.split(', ');
+                    const numeroFoto = index + 1;
                     const fotoNombre = `foto${numeroFoto}.jpg`;
 
                     const productoDiv = document.createElement('div');
@@ -212,12 +191,14 @@
                     productoDiv.dataset.codigo = codigo;
                     productoDiv.dataset.descripcion = descripcion;
                     productoDiv.dataset.foto = fotoNombre;
+                    productoDiv.dataset.precio = precio;
 
                     productoDiv.innerHTML = `
                         <img src="${fotoNombre}" alt="Imagen del producto">
                         <h2>${nombre}</h2>
                         <p>Código: ${codigo}</p>
-                        <button onclick="mostrarConsulta('${nombre}', '${codigo}', '${descripcion}', '${fotoNombre}')">Consultar por WHASTAPP</button>
+                        <p class="precio">€${precio}</p>
+                        <button onclick="mostrarConsulta('${nombre}', '${codigo}', '${descripcion}', '${fotoNombre}', '${precio}')">Agregar al Carrito</button>
                     `;
 
                     catalogoDiv.appendChild(productoDiv);
@@ -226,7 +207,7 @@
             .catch(error => console.error('Error al cargar el archivo:', error));
 
         // Función para mostrar el div de consulta
-        function mostrarConsulta(nombre, codigo, descripcion, foto) {
+        function mostrarConsulta(nombre, codigo, descripcion, foto, precio) {
             document.getElementById('consulta-overlay').style.display = 'flex';
             document.getElementById('consulta-img').src = foto;
             document.getElementById('consulta-titulo').textContent = nombre;
@@ -234,32 +215,47 @@
             document.getElementById('consulta-descripcion').textContent = `Descripción: ${descripcion}`;
         }
 
-        // Mostrar/ocultar secciones según la opción seleccionada
-        document.getElementById('consulta-opciones').addEventListener('change', function() {
-            const valor = this.value;
-            document.querySelector('.medios-pago').style.display = valor === 'consultar-medios-pago' ? 'block' : 'none';
-            document.querySelector('.otras-consultas').style.display = valor === 'otras-consultas' ? 'block' : 'none';
-        });
+        // Función para agregar al carrito usando IndexedDB
+        document.getElementById('agregar-carrito').addEventListener('click', function() {
+            const cantidad = document.getElementById('cantidad').value;
+            const nombre = document.getElementById('consulta-titulo').textContent;
+            const codigo = document.getElementById('consulta-codigo').textContent.split(': ')[1];
+            const descripcion = document.getElementById('consulta-descripcion').textContent.split(': ')[1];
+            const foto = document.getElementById('consulta-img').src;
+            const precio = parseFloat(document.querySelector(`[data-codigo="${codigo}"]`).dataset.precio);
 
-        // Enviar consulta
-        document.getElementById('enviar-consulta').addEventListener('click', function() {
-            const nombre = document.getElementById('nombre').value;
-            const opcion = document.getElementById('consulta-opciones').value;
-            const textoConsulta = document.getElementById('texto-consulta').value;
-            const titulo = document.getElementById('consulta-titulo').textContent;
-            const codigo = document.getElementById('consulta-codigo').textContent;
-            const descripcion = document.getElementById('consulta-descripcion').textContent;
+            const producto = {
+                nombre,
+                codigo,
+                descripcion,
+                foto,
+                precio,
+                cantidad: parseInt(cantidad),
+                total: parseFloat(precio) * parseInt(cantidad)
+            };
 
-            let mensaje = `Nombre: ${nombre}\nTítulo: ${titulo}\nCódigo: ${codigo}\nDescripción: ${descripcion}\nOpción: ${opcion}`;
+            // Abriendo la base de datos IndexedDB
+            const request = indexedDB.open('carritoDB', 1);
 
-            if (opcion === 'otras-consultas') {
-                mensaje += `\nConsulta: ${textoConsulta}`;
-            }
+            request.onupgradeneeded = function(e) {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains('carrito')) {
+                    db.createObjectStore('carrito', { keyPath: 'codigo' });
+                }
+            };
 
-            const numeroWhatsApp = '1573600681'; // Reemplaza con tu número de WhatsApp
-            const url = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensaje)}`;
+            request.onsuccess = function(e) {
+                const db = e.target.result;
+                const transaction = db.transaction(['carrito'], 'readwrite');
+                const store = transaction.objectStore('carrito');
+                store.put(producto);
+                alert('Producto agregado al carrito.');
+                document.getElementById('consulta-overlay').style.display = 'none';
+            };
 
-            window.open(url, '_blank');
+            request.onerror = function(e) {
+                console.error('Error al abrir la base de datos:', e);
+            };
         });
 
         // Cerrar overlay al hacer clic fuera del div de consulta
