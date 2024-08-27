@@ -1,8 +1,8 @@
-CAMISETA ALGODÓN, COD0001, Camiseta de algodón suave y cómoda ideal para uso diario,,100.
-JEAN DESTROYED, COD0002, Jean con detalles desgastados perfecto para un look casual,,200.
-BUZO CANGURO, COD0003, Buzo con capucha y bolsillo frontal ideal para el invierno,,300.
-CHAQUETA DE DENIM, COD0004, Chaqueta de mezclilla clásica esencial para cualquier armario,,400.
-PANTALÓN DE CHÁNDAL, COD0005, Pantalón cómodo para actividades deportivas y descanso,,500.
+CAMISETA ALGODÓN, COD0001, Camiseta de algodón suave y cómoda ideal para uso diario,1,100.
+JEAN DESTROYED, COD0002, Jean con detalles desgastados perfecto para un look casual,2,200.
+BUZO CANGURO, COD0003, Buzo con capucha y bolsillo frontal ideal para el invierno,3,300.
+CHAQUETA DE DENIM, COD0004, Chaqueta de mezclilla clásica esencial para cualquier armario,4,400.
+PANTALÓN DE CHÁNDAL, COD0005, Pantalón cómodo para actividades deportivas y descanso,5,500.
 CAMISA DE LINO, COD0006, Camisa ligera y transpirable perfecta para el verano,,600.
 SUDADERA CON CAPUCHA, COD0007, Sudadera cómoda y cálida con capucha ajustable,,700.
 CHALECO TÉCNICO, COD0008, Chaleco resistente al agua ideal para actividades al aire libre,,800.
