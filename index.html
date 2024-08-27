@@ -5,234 +5,303 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo Online</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #FFDCFD;
-        }
-        .banner {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px;
-        }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFDCFD;
+}
 
-        .banner img {
-            width: 70%;
-            max-width: 150px;
-            height: auto;
-            margin-bottom: 10px;
-        }
+.banner {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
 
-        .banner h1 {
-            margin: 0;
-            font-size: 2rem;
-        }
+.banner img {
+    width: 70%;
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 10px;
+}
 
-        .catalogo {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
-        }
+.banner h1 {
+    margin: 0;
+    font-size: 2rem;
+}
 
-        .producto {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin: 10px;
-            width: 200px;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+.catalogo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
 
-        .producto img {
-            width: 100px;
-            height: 130px;
-            margin-top: 10px;
-        }
+.producto {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px;
+    width: calc(50% - 20px);
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
 
-        .producto h2 {
-            font-size: 18px;
-            margin: 10px 0 5px;
-        }
+.producto img {
+    width: 100px;
+    height: 130px;
+    margin-top: 10px;
+}
 
-        .producto p {
-            font-size: 14px;
-            color: #777;
-            margin: 5px 0;
-        }
+.producto h2 {
+    font-size: 18px;
+    margin: 10px 0 5px;
+}
 
-        .producto .precio {
-            font-size: 16px;
-            font-weight: bold;
-            margin: 5px 0;
-        }
+.producto p {
+    font-size: 14px;
+    color: #777;
+    margin: 5px 0;
+}
 
-        .producto button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-bottom: 15px;
-            width: 80%;
-            border-radius: 5px;
-        }
+.producto .precio {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px 0;
+}
 
-        .producto button:hover {
-            background-color: #45a049;
-        }
+.producto button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    width: 80%;
+    border-radius: 5px;
+}
 
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
+.producto button:hover {
+    background-color: #45a049;
+}
 
-        .consulta {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            width: 80%;
-            max-width: 600px;
-            position: relative;
-        }
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 
-        .consulta img {
-            width: 50%;
-            height: auto;
-            margin-bottom: 15px;
-        }
+.consulta {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    box-sizing: border-box;
+}
 
-        .consulta h2 {
-            margin: 10px 0;
-        }
+.consulta img {
+    width: 50%;
+    height: auto;
+    margin-bottom: 15px;
+}
 
-        .consulta input[type="number"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 10px;
-        }
+.consulta h2 {
+    margin: 10px 0;
+}
 
-        .consulta button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            width: 100%;
-        }
+.consulta input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+}
 
-        .consulta button:hover {
-            background-color: #45a049;
-        }
+.consulta button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+}
 
-        .filter-buttons {
-            display: flex;
-            justify-content: center;
-            margin: 20px;
-        }
+.consulta button:hover {
+    background-color: #45a049;
+}
 
-        .filter-buttons button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 0 10px;
-            border-radius: 5px;
-        }
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+}
 
-        .filter-buttons button:hover {
-            background-color: #45a049;
-        }
+.filter-buttons button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+}
 
-        .carrito {
-            display: none;
-            background: white;
-            padding: 20px;
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            max-width: 500px;
-            height: 100%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-            z-index: 1000;
-        }
+.filter-buttons button:hover {
+    background-color: #45a049;
+}
 
-        .carrito .total-compra {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
+.carrito {
+    display: none;
+    background: white;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    z-index: 1000;
+    box-sizing: border-box;
+}
 
-        .carrito .producto-carrito {
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-            padding: 10px 0;
-        }
+.carrito .total-compra {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
 
-        .carrito .producto-carrito img {
-            width: 50px;
-            height: 65px;
-            margin-right: 10px;
-        }
+.carrito .producto-carrito {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
 
-        .carrito .producto-carrito .info {
-            flex-grow: 1;
-        }
+.carrito .producto-carrito img {
+    width: 50px;
+    height: 65px;
+    margin-right: 10px;
+}
 
-        .carrito .producto-carrito button {
-            background-color: #f44336;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
+.carrito .producto-carrito .info {
+    flex-grow: 1;
+}
 
-        .carrito .producto-carrito button:hover {
-            background-color: #e53935;
-        }
+.carrito .producto-carrito button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
 
-        .carrito button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
-            border-radius: 5px;
-            width: 100%;
-        }
+.carrito .producto-carrito button:hover {
+    background-color: #e53935;
+}
 
-        .carrito button:hover {
-            background-color: #45a049;
-        }
+.carrito button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.carrito button:hover {
+    background-color: #45a049;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .catalogo {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .producto {
+        width: calc(100% - 20px);
+    }
+
+    .filter-buttons {
+        flex-direction: column;
+    }
+
+    .filter-buttons button {
+        margin: 5px 0;
+    }
+
+    .consulta {
+        width: 90%;
+    }
+
+    .carrito {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .banner h1 {
+        font-size: 1.5rem;
+    }
+
+    .producto img {
+        width: 80px;
+        height: 100px;
+    }
+
+    .producto h2 {
+        font-size: 16px;
+    }
+
+    .producto .precio {
+        font-size: 14px;
+    }
+
+    .consulta img {
+        width: 60%;
+    }
+
+    .consulta h2 {
+        font-size: 18px;
+    }
+
+    .consulta input[type="number"] {
+        font-size: 14px;
+    }
+
+    .carrito .producto-carrito img {
+        width: 40px;
+        height: 50px;
+    }
+}
     </style>
 </head>
 <body>
