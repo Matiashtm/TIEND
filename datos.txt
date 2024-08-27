@@ -1,13 +1,13 @@
-CAMISETA ALGODÓN, COD0001, Camiseta de algodón suave y cómoda ideal para uso diario,1.
+CAMISETA ALGODÓN, COD0001, Camiseta de algodón suave y cómoda ideal para uso diario,1,100.
 JEAN DESTROYED, COD0002, Jean con detalles desgastados perfecto para un look casual,2,200.
 BUZO CANGURO, COD0003, Buzo con capucha y bolsillo frontal ideal para el invierno,3,300.
 CHAQUETA DE DENIM, COD0004, Chaqueta de mezclilla clásica esencial para cualquier armario,4,400.
 PANTALÓN DE CHÁNDAL, COD0005, Pantalón cómodo para actividades deportivas y descanso,5,500.
-CAMISA DE LINO, COD0006, Camisa ligera y transpirable perfecta para el verano,,600.
-SUDADERA CON CAPUCHA, COD0007, Sudadera cómoda y cálida con capucha ajustable,,700.
-CHALECO TÉCNICO, COD0008, Chaleco resistente al agua ideal para actividades al aire libre,,800.
-FALDA DE CUERO, COD0009, Falda de cuero sintético con un toque moderno y elegante,,900.
-CAMPERA DE NYLON, COD0010, Camperón ligero y resistente al viento para días frescos,,1000.
-CAMISA DE MANGA LARGA, COD0011, Camisa de manga larga perfecta para ocasiones formales o informales,,1100.
-PANTALONES DE CARGO, COD0012, Pantalones con múltiples bolsillos ideales para aventuras al aire libre,,1200.
-ABRIGO DE LANA, COD0013, Abrigo cálido y elegante ideal para climas fríos,,1300.
+CAMISA DE LINO, COD0006, Camisa ligera y transpirable perfecta para el verano,6,600.
+SUDADERA CON CAPUCHA, COD0007, Sudadera cómoda y cálida con capucha ajustable,7,700.
+CHALECO TÉCNICO, COD0008, Chaleco resistente al agua ideal para actividades al aire libre,8,800.
+FALDA DE CUERO, COD0009, Falda de cuero sintético con un toque moderno y elegante,9,900.
+CAMPERA DE NYLON, COD0010, Camperón ligero y resistente al viento para días frescos,10,1000.
+CAMISA DE MANGA LARGA, COD0011, Camisa de manga larga perfecta para ocasiones formales o informales,11,1100.
+PANTALONES DE CARGO, COD0012, Pantalones con múltiples bolsillos ideales para aventuras al aire libre,12,1200.
+ABRIGO DE LANA, COD0013, Abrigo cálido y elegante ideal para climas fríos,13,1300.
