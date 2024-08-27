@@ -180,38 +180,29 @@
             .then(data => {
                 const productos = data.split('\n');
                 const catalogoDiv = document.getElementById('catalogo');
-                const regex = /^(.+?),\s(COD\d{4}),\s(.+),\s(\d+\.\d{2})$/;
 
                 productos.forEach((producto, index) => {
-                    const match = producto.match(regex);
-                    if (match) {
-                        const nombre = match[1].trim();
-                        const codigo = match[2].trim();
-                        const descripcion = match[3].trim();
-                        const precio = parseFloat(match[4].trim()).toFixed(2);
-                        const numeroFoto = index + 1;
-                        const fotoNombre = `foto${numeroFoto}.jpg`;
+                    const [nombre, codigo, descripcion, precio] = producto.split(', ');
+                    const numeroFoto = index + 1;
+                    const fotoNombre = `foto${numeroFoto}.jpg`;
 
-                        const productoDiv = document.createElement('div');
-                        productoDiv.classList.add('producto');
-                        productoDiv.dataset.nombre = nombre;
-                        productoDiv.dataset.codigo = codigo;
-                        productoDiv.dataset.descripcion = descripcion;
-                        productoDiv.dataset.foto = fotoNombre;
-                        productoDiv.dataset.precio = precio;
+                    const productoDiv = document.createElement('div');
+                    productoDiv.classList.add('producto');
+                    productoDiv.dataset.nombre = nombre;
+                    productoDiv.dataset.codigo = codigo;
+                    productoDiv.dataset.descripcion = descripcion;
+                    productoDiv.dataset.foto = fotoNombre;
+                    productoDiv.dataset.precio = precio;
 
-                        productoDiv.innerHTML = `
-                            <img src="${fotoNombre}" alt="Imagen del producto">
-                            <h2>${nombre}</h2>
-                            <p>Descripción: ${descripcion}</p>
-                            <p class="precio">Precio: $${precio}</p>
-                            <button onclick="mostrarConsulta('${nombre}', '${codigo}', '${descripcion}', '${fotoNombre}', '${precio}')">Agregar al Carrito</button>
-                        `;
+                    productoDiv.innerHTML = `
+                        <img src="${fotoNombre}" alt="Imagen del producto">
+                        <h2>${nombre}</h2>
+                        <p>Descripción: ${descripcion}</p>
+                        <p class="precio">Precio: $${precio}</p>
+                        <button onclick="mostrarConsulta('${nombre}', '${codigo}', '${descripcion}', '${fotoNombre}', '${precio}')">Agregar al Carrito</button>
+                    `;
 
-                        catalogoDiv.appendChild(productoDiv);
-                    } else {
-                        console.error('Error al parsear la línea del producto:', producto);
-                    }
+                    catalogoDiv.appendChild(productoDiv);
                 });
             })
             .catch(error => console.error('Error al cargar el archivo:', error));
