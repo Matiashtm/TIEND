@@ -144,6 +144,95 @@
         .consulta button:hover {
             background-color: #45a049;
         }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .filter-buttons button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px;
+            border-radius: 5px;
+        }
+
+        .filter-buttons button:hover {
+            background-color: #45a049;
+        }
+
+        .carrito {
+            display: none;
+            background: white;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 500px;
+            height: 100%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .carrito .total-compra {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .carrito .producto-carrito {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .carrito .producto-carrito img {
+            width: 50px;
+            height: 65px;
+            margin-right: 10px;
+        }
+
+        .carrito .producto-carrito .info {
+            flex-grow: 1;
+        }
+
+        .carrito .producto-carrito button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .carrito .producto-carrito button:hover {
+            background-color: #e53935;
+        }
+
+        .carrito button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .carrito button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -152,7 +241,20 @@
         <img src="Logo.png" alt="Logo">
         <h1>Catálogo de Productos</h1>
     </div>
-   
+
+    <!-- Botones de filtro -->
+    <div class="filter-buttons">
+        <button onclick="filtrarProductos('TODOS')">TODOS</button>
+        <button onclick="filtrarProductos('ZAPATILLAS')">ZAPATILLAS</button>
+        <button onclick="filtrarProductos('ZAPATOS')">ZAPATOS</button>
+        <button onclick="filtrarProductos('NIÑOS')">NIÑOS</button>
+    </div>
+
+    <!-- Botón de carrito -->
+    <div style="position: absolute; top: 20px; right: 20px;">
+        <button onclick="mostrarCarrito()">MI CARRITO</button>
+    </div>
+
     <div class="catalogo" id="catalogo">
         <!-- Los productos se cargarán aquí dinámicamente -->
     </div>
@@ -165,66 +267,88 @@
             <p id="consulta-codigo">Código: </p>
             <p id="consulta-descripcion">Descripción: </p>
             <p id="consulta-precio">Precio: </p>
+            <p id="consulta-talles">Talles: </p>
             <input type="number" id="cantidad" placeholder="Cantidad" min="1" value="1">
             <button id="agregar-carrito">Agregar al Carrito</button>
         </div>
     </div>
 
+    <!-- Div del carrito -->
+    <div class="carrito" id="carrito">
+        <div class="total-compra" id="total-compra">TOTAL DE COMPRA: $0</div>
+        <div id="carrito-lista">
+            <!-- Los productos del carrito se cargarán aquí dinámicamente -->
+        </div>
+        <button onclick="volverCatalogo()">Volver al Catálogo</button>
+        <button onclick="solicitarCompra()">Solicita la Compra</button>
+    </div>
+
     <script>
-        // URL del archivo datos.txt
-        const datosUrl = 'datos.txt';
+        const productos = {
+            TODOS: [
+                { nombre: "CAMISETA ALGODÓN", codigo: "COD100", descripcion: "Camiseta de algodón suave y cómoda ideal para uso diario", precio: 100, imagen: "foto1.jpg", categoria: "TODOS", talles: "S,M,L" },
+                { nombre: "ZAPATILLA DEPORTIVA", codigo: "COD101", descripcion: "Zapatilla ideal para correr y entrenamientos", precio: 200, imagen: "foto2.jpg", categoria: "ZAPATILLAS", talles: "41,42,43" },
+                { nombre: "ZAPATO FORMAL", codigo: "COD102", descripcion: "Zapato formal para eventos y oficina", precio: 300, imagen: "foto3.jpg", categoria: "ZAPATOS", talles: "40,41,42" },
+                { nombre: "CAMISETA NIÑO", codigo: "COD103", descripcion: "Camiseta de algodón para niños", precio: 150, imagen: "foto4.jpg", categoria: "NIÑOS", talles: "4,5,6" }
+            ],
+            ZAPATILLAS: [
+                { nombre: "ZAPATILLA DEPORTIVA", codigo: "COD101", descripcion: "Zapatilla ideal para correr y entrenamientos", precio: 200, imagen: "foto2.jpg", categoria: "ZAPATILLAS", talles: "41,42,43" }
+            ],
+            ZAPATOS: [
+                { nombre: "ZAPATO FORMAL", codigo: "COD102", descripcion: "Zapato formal para eventos y oficina", precio: 300, imagen: "foto3.jpg", categoria: "ZAPATOS", talles: "40,41,42" }
+            ],
+            NIÑOS: [
+                { nombre: "CAMISETA NIÑO", codigo: "COD103", descripcion: "Camiseta de algodón para niños", precio: 150, imagen: "foto4.jpg", categoria: "NIÑOS", talles: "4,5,6" }
+            ]
+        };
 
-        // Función para cargar el archivo datos.txt
-        fetch(datosUrl)
-            .then(response => response.text())
-            .then(data => {
-                const productos = data.split('\n');
-                const catalogoDiv = document.getElementById('catalogo');
+        function filtrarProductos(categoria) {
+            const catalogoDiv = document.getElementById('catalogo');
+            catalogoDiv.innerHTML = '';
 
-                productos.forEach((producto, index) => {
-                    const [nombre, codigo, descripcion, precio] = producto.split(', ');
-                    const numeroFoto = index + 1;
-                    const fotoNombre = `foto${numeroFoto}.jpg`;
+            productos[categoria].forEach(producto => {
+                const productoDiv = document.createElement('div');
+                productoDiv.classList.add('producto');
+                productoDiv.dataset.nombre = producto.nombre;
+                productoDiv.dataset.codigo = producto.codigo;
+                productoDiv.dataset.descripcion = producto.descripcion;
+                productoDiv.dataset.foto = producto.imagen;
+                productoDiv.dataset.precio = producto.precio;
+                productoDiv.dataset.talles = producto.talles;
 
-                    const productoDiv = document.createElement('div');
-                    productoDiv.classList.add('producto');
-                    productoDiv.dataset.nombre = nombre;
-                    productoDiv.dataset.codigo = codigo;
-                    productoDiv.dataset.descripcion = descripcion;
-                    productoDiv.dataset.foto = fotoNombre;
-                    productoDiv.dataset.precio = precio;
+                productoDiv.innerHTML = `
+                    <img src="${producto.imagen}" alt="Imagen del producto">
+                    <h2>${producto.nombre}</h2>
+                    <p>Descripción: ${producto.descripcion}</p>
+                    <p class="precio">Precio: $${producto.precio}</p>
+                    <button onclick="mostrarConsulta('${producto.nombre}', '${producto.codigo}', '${producto.descripcion}', '${producto.imagen}', '${producto.precio}', '${producto.talles}')">Agregar al Carrito</button>
+                `;
 
-                    productoDiv.innerHTML = `
-                        <img src="${fotoNombre}" alt="Imagen del producto">
-                        <h2>${nombre}</h2>
-                        <p>Descripción: ${descripcion}</p>
-                        <p class="precio">Precio: $${precio}</p>
-                        <button onclick="mostrarConsulta('${nombre}', '${codigo}', '${descripcion}', '${fotoNombre}', '${precio}')">Agregar al Carrito</button>
-                    `;
+                catalogoDiv.appendChild(productoDiv);
+            });
+        }
 
-                    catalogoDiv.appendChild(productoDiv);
-                });
-            })
-            .catch(error => console.error('Error al cargar el archivo:', error));
-
-        // Función para mostrar el div de consulta
-        function mostrarConsulta(nombre, codigo, descripcion, foto, precio) {
+        function mostrarConsulta(nombre, codigo, descripcion, foto, precio, talles) {
             document.getElementById('consulta-overlay').style.display = 'flex';
             document.getElementById('consulta-img').src = foto;
             document.getElementById('consulta-titulo').textContent = nombre;
             document.getElementById('consulta-codigo').textContent = `Código: ${codigo}`;
             document.getElementById('consulta-descripcion').textContent = `Descripción: ${descripcion}`;
             document.getElementById('consulta-precio').textContent = `Precio: $${precio}`;
+
+            const tallesArray = talles.split(',');
+            const tallesList = tallesArray.map(talle => `<option value="${talle}">${talle}</option>`).join('');
+            document.getElementById('consulta-talles').innerHTML = `Talles: <select id="talles">${tallesList}</select>`;
         }
 
-        // Función para agregar al carrito usando localStorage
         document.getElementById('agregar-carrito').addEventListener('click', function() {
             const cantidad = document.getElementById('cantidad').value;
             const nombre = document.getElementById('consulta-titulo').textContent;
             const codigo = document.getElementById('consulta-codigo').textContent.split(': ')[1];
             const descripcion = document.getElementById('consulta-descripcion').textContent.split(': ')[1];
             const foto = document.getElementById('consulta-img').src;
-            const precio = parseFloat(document.querySelector(`[data-codigo="${codigo}"]`).dataset.precio);
+            const precio = parseFloat(document.querySelector(`.producto[data-codigo="${codigo}"]`).dataset.precio);
+            const talle = document.getElementById('talles').value;
 
             const producto = {
                 nombre,
@@ -233,28 +357,80 @@
                 foto,
                 precio,
                 cantidad: parseInt(cantidad),
-                total: parseFloat(precio) * parseInt(cantidad)
+                total: parseFloat(precio) * parseInt(cantidad),
+                talle
             };
 
-            // Obtener el carrito de localStorage
             let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
-            // Agregar producto al carrito
             carrito.push(producto);
-
-            // Guardar carrito en localStorage
             localStorage.setItem('carrito', JSON.stringify(carrito));
 
             alert('Producto agregado al carrito.');
             document.getElementById('consulta-overlay').style.display = 'none';
         });
 
-        // Cerrar overlay al hacer clic fuera del div de consulta
         document.getElementById('consulta-overlay').addEventListener('click', function(event) {
             if (event.target === this) {
                 this.style.display = 'none';
             }
         });
+
+        function mostrarCarrito() {
+            document.querySelector('.catalogo').style.display = 'none';
+            document.querySelector('.filter-buttons').style.display = 'none';
+            document.getElementById('carrito').style.display = 'block';
+
+            const carritoDiv = document.getElementById('carrito-lista');
+            carritoDiv.innerHTML = '';
+
+            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            let totalCompra = 0;
+
+            carrito.forEach(producto => {
+                totalCompra += producto.total;
+                const productoCarritoDiv = document.createElement('div');
+                productoCarritoDiv.classList.add('producto-carrito');
+
+                productoCarritoDiv.innerHTML = `
+                    <img src="${producto.foto}" alt="Imagen del producto">
+                    <div class="info">
+                        <h3>${producto.nombre}</h3>
+                        <p>Código: ${producto.codigo}</p>
+                        <p>Descripción: ${producto.descripcion}</p>
+                        <p>Precio: $${producto.precio}</p>
+                        <p>Cantidad: ${producto.cantidad}</p>
+                        <p>Talle: ${producto.talle}</p>
+                        <p>Total: $${producto.total}</p>
+                    </div>
+                    <button onclick="eliminarDelCarrito('${producto.codigo}')">Eliminar</button>
+                `;
+
+                carritoDiv.appendChild(productoCarritoDiv);
+            });
+
+            document.getElementById('total-compra').textContent = `TOTAL DE COMPRA: $${totalCompra}`;
+        }
+
+        function eliminarDelCarrito(codigo) {
+            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            carrito = carrito.filter(producto => producto.codigo !== codigo);
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            mostrarCarrito();
+        }
+
+        function volverCatalogo() {
+            document.querySelector('.catalogo').style.display = 'flex';
+            document.querySelector('.filter-buttons').style.display = 'flex';
+            document.getElementById('carrito').style.display = 'none';
+        }
+
+        function solicitarCompra() {
+            alert('Solicitud de compra enviada. Gracias por su compra.');
+        }
+
+        window.onload = function() {
+            filtrarProductos('TODOS');
+        };
     </script>
 
 </body>
