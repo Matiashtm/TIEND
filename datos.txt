@@ -1,4 +1,4 @@
-CAMISETA ALGODÓN, COD0001, Camiseta de algodón suave y cómoda ideal para uso diario,1,100,100.
+CAMISETA ALGODÓN, COD0001, Camiseta de algodón suave y cómoda ideal para uso diario,1.
 JEAN DESTROYED, COD0002, Jean con detalles desgastados perfecto para un look casual,2,200.
 BUZO CANGURO, COD0003, Buzo con capucha y bolsillo frontal ideal para el invierno,3,300.
 CHAQUETA DE DENIM, COD0004, Chaqueta de mezclilla clásica esencial para cualquier armario,4,400.
