@@ -67,7 +67,7 @@
         .producto p {
             font-size: 14px;
             color: #777;
-            margin: 0 0 10px;
+            margin: 5px 0;
         }
 
         .producto .precio {
@@ -164,6 +164,7 @@
             <h2 id="consulta-titulo">Título del Producto</h2>
             <p id="consulta-codigo">Código: </p>
             <p id="consulta-descripcion">Descripción: </p>
+            <p id="consulta-precio">Precio: </p>
             <input type="number" id="cantidad" placeholder="Cantidad" min="1" value="1">
             <button id="agregar-carrito">Agregar al Carrito</button>
         </div>
@@ -196,8 +197,8 @@
                     productoDiv.innerHTML = `
                         <img src="${fotoNombre}" alt="Imagen del producto">
                         <h2>${nombre}</h2>
-                        <p>Código: ${codigo}</p>
-                        <p class="precio">€${precio}</p>
+                        <p>Descripción: ${descripcion}</p>
+                        <p class="precio">Precio: $${precio}</p>
                         <button onclick="mostrarConsulta('${nombre}', '${codigo}', '${descripcion}', '${fotoNombre}', '${precio}')">Agregar al Carrito</button>
                     `;
 
@@ -213,9 +214,10 @@
             document.getElementById('consulta-titulo').textContent = nombre;
             document.getElementById('consulta-codigo').textContent = `Código: ${codigo}`;
             document.getElementById('consulta-descripcion').textContent = `Descripción: ${descripcion}`;
+            document.getElementById('consulta-precio').textContent = `Precio: $${precio}`;
         }
 
-        // Función para agregar al carrito usando IndexedDB
+        // Función para agregar al carrito usando localStorage
         document.getElementById('agregar-carrito').addEventListener('click', function() {
             const cantidad = document.getElementById('cantidad').value;
             const nombre = document.getElementById('consulta-titulo').textContent;
@@ -234,28 +236,17 @@
                 total: parseFloat(precio) * parseInt(cantidad)
             };
 
-            // Abriendo la base de datos IndexedDB
-            const request = indexedDB.open('carritoDB', 1);
+            // Obtener el carrito de localStorage
+            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-            request.onupgradeneeded = function(e) {
-                const db = e.target.result;
-                if (!db.objectStoreNames.contains('carrito')) {
-                    db.createObjectStore('carrito', { keyPath: 'codigo' });
-                }
-            };
+            // Agregar producto al carrito
+            carrito.push(producto);
 
-            request.onsuccess = function(e) {
-                const db = e.target.result;
-                const transaction = db.transaction(['carrito'], 'readwrite');
-                const store = transaction.objectStore('carrito');
-                store.put(producto);
-                alert('Producto agregado al carrito.');
-                document.getElementById('consulta-overlay').style.display = 'none';
-            };
+            // Guardar carrito en localStorage
+            localStorage.setItem('carrito', JSON.stringify(carrito));
 
-            request.onerror = function(e) {
-                console.error('Error al abrir la base de datos:', e);
-            };
+            alert('Producto agregado al carrito.');
+            document.getElementById('consulta-overlay').style.display = 'none';
         });
 
         // Cerrar overlay al hacer clic fuera del div de consulta
