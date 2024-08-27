@@ -375,23 +375,35 @@ body {
     </div>
 
     <script>
-        const productos = {
-            TODOS: [
-                { nombre: "CAMISETA ALGODÓN", codigo: "COD100", descripcion: "Camiseta de algodón suave y cómoda ideal para uso diario", precio: 100, imagen: "foto1.jpg", categoria: "TODOS", talles: "S,M,L" },
-                { nombre: "ZAPATILLA DEPORTIVA", codigo: "COD101", descripcion: "Zapatilla ideal para correr y entrenamientos", precio: 200, imagen: "foto2.jpg", categoria: "ZAPATILLAS", talles: "41,42,43" },
-                { nombre: "ZAPATO FORMAL", codigo: "COD102", descripcion: "Zapato formal para eventos y oficina", precio: 300, imagen: "foto3.jpg", categoria: "ZAPATOS", talles: "40,41,42" },
-                { nombre: "CAMISETA NIÑO", codigo: "COD103", descripcion: "Camiseta de algodón para niños", precio: 150, imagen: "foto4.jpg", categoria: "NIÑOS", talles: "4,5,6" }
-            ],
-            ZAPATILLAS: [
-                { nombre: "ZAPATILLA DEPORTIVA", codigo: "COD101", descripcion: "Zapatilla ideal para correr y entrenamientos", precio: 200, imagen: "foto2.jpg", categoria: "ZAPATILLAS", talles: "41,42,43" }
-            ],
-            ZAPATOS: [
-                { nombre: "ZAPATO FORMAL", codigo: "COD102", descripcion: "Zapato formal para eventos y oficina", precio: 300, imagen: "foto3.jpg", categoria: "ZAPATOS", talles: "40,41,42" }
-            ],
-            NIÑOS: [
-                { nombre: "CAMISETA NIÑO", codigo: "COD103", descripcion: "Camiseta de algodón para niños", precio: 150, imagen: "foto4.jpg", categoria: "NIÑOS", talles: "4,5,6" }
-            ]
-        };
+const productos = {
+    TODOS: [
+     { nombre: "ZAPATILLA DEPORTIVA 1", codigo: "COD200", descripcion: "Zapatilla deportiva de alto rendimiento", precio: 120, imagen: "foto1.jpg", categoria: "ZAPATILLAS", talles: "37,38,39,40,41" },
+        { nombre: "ZAPATILLA DEPORTIVA 2", codigo: "COD201", descripcion: "Zapatilla deportiva con amortiguación avanzada", precio: 130, imagen: "foto2.jpg", categoria: "ZAPATILLAS", talles: "36,38,39,40,42" },
+        { nombre: "ZAPATILLA URBANA 1", codigo: "COD202", descripcion: "Zapatilla urbana con diseño moderno", precio: 110, imagen: "foto3.jpg", categoria: "ZAPATILLAS", talles: "37,38,39,41,42" },
+        { nombre: "ZAPATO FORMAL 1", codigo: "COD300", descripcion: "Zapato formal de cuero para ocasiones especiales", precio: 150, imagen: "foto4.jpg", categoria: "ZAPATOS", talles: "39,40,41,42,43" },
+        { nombre: "ZAPATO CASUAL 1", codigo: "COD301", descripcion: "Zapato casual con diseño elegante", precio: 140, imagen: "foto5.jpg", categoria: "ZAPATOS", talles: "38,39,40,41" },
+        { nombre: "ZAPATO DE CUERO 1", codigo: "COD302", descripcion: "Zapato de cuero genuino con confort extra", precio: 160, imagen: "foto6.jpg", categoria: "ZAPATOS", talles: "40,41,42,43" },
+        { nombre: "ZAPATILLA NIÑO 1", codigo: "COD400", descripcion: "Zapatilla para niños con suela antideslizante", precio: 90, imagen: "foto7.jpg", categoria: "NIÑOS", talles: "32,33,34,35" },
+        { nombre: "ZAPATILLA NIÑO 2", codigo: "COD401", descripcion: "Zapatilla infantil con cierre de velcro", precio: 85, imagen: "foto8.jpg", categoria: "NIÑOS", talles: "31,32,33,34" },
+        { nombre: "ZAPATO NIÑO 1", codigo: "COD402", descripcion: "Zapato infantil para eventos formales", precio: 100, imagen: "foto9.jpg", categoria: "NIÑOS", talles: "33,34,35,36" }
+    ],
+    ZAPATILLAS: [
+        { nombre: "ZAPATILLA DEPORTIVA 1", codigo: "COD200", descripcion: "Zapatilla deportiva de alto rendimiento", precio: 120, imagen: "foto1.jpg", categoria: "ZAPATILLAS", talles: "37,38,39,40,41" },
+        { nombre: "ZAPATILLA DEPORTIVA 2", codigo: "COD201", descripcion: "Zapatilla deportiva con amortiguación avanzada", precio: 130, imagen: "foto2.jpg", categoria: "ZAPATILLAS", talles: "36,38,39,40,42" },
+        { nombre: "ZAPATILLA URBANA 1", codigo: "COD202", descripcion: "Zapatilla urbana con diseño moderno", precio: 110, imagen: "foto3.jpg", categoria: "ZAPATILLAS", talles: "37,38,39,41,42" }
+    ],
+    ZAPATOS: [
+        { nombre: "ZAPATO FORMAL 1", codigo: "COD300", descripcion: "Zapato formal de cuero para ocasiones especiales", precio: 150, imagen: "foto4.jpg", categoria: "ZAPATOS", talles: "39,40,41,42,43" },
+        { nombre: "ZAPATO CASUAL 1", codigo: "COD301", descripcion: "Zapato casual con diseño elegante", precio: 140, imagen: "foto5.jpg", categoria: "ZAPATOS", talles: "38,39,40,41" },
+        { nombre: "ZAPATO DE CUERO 1", codigo: "COD302", descripcion: "Zapato de cuero genuino con confort extra", precio: 160, imagen: "foto6.jpg", categoria: "ZAPATOS", talles: "40,41,42,43" }
+    ],
+    NIÑOS: [
+        { nombre: "ZAPATILLA NIÑO 1", codigo: "COD400", descripcion: "Zapatilla para niños con suela antideslizante", precio: 90, imagen: "foto7.jpg", categoria: "NIÑOS", talles: "32,33,34,35" },
+        { nombre: "ZAPATILLA NIÑO 2", codigo: "COD401", descripcion: "Zapatilla infantil con cierre de velcro", precio: 85, imagen: "foto8.jpg", categoria: "NIÑOS", talles: "31,32,33,34" },
+        { nombre: "ZAPATO NIÑO 1", codigo: "COD402", descripcion: "Zapato infantil para eventos formales", precio: 100, imagen: "foto9.jpg", categoria: "NIÑOS", talles: "33,34,35,36" }
+    ]
+};
+
 
         function filtrarProductos(categoria) {
             const catalogoDiv = document.getElementById('catalogo');
