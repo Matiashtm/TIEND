@@ -26,8 +26,8 @@ body {
 }
 
 .banner img {
-    width: 70%;
-    max-width: 150px;
+    width: 90%;
+    max-width: 400px;
     height: auto;
     margin-bottom: 10px;
 }
@@ -302,6 +302,27 @@ body {
         height: 50px;
     }
 }
+.mi-carrito-btn-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+.mi-carrito-btn {
+    background-color: #4CAF50; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de la fuente */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.mi-carrito-btn:hover {
+    background-color: #45a049; /* Color de fondo en hover */
+}
+
     </style>
 </head>
 <body>
@@ -319,10 +340,11 @@ body {
         <button onclick="filtrarProductos('NIÑOS')">NIÑOS</button>
     </div>
 
-    <!-- Botón de carrito -->
-    <div style="position: absolute; top: 20px; right: 20px;">
-        <button onclick="mostrarCarrito()">MI CARRITO</button>
-    </div>
+<!-- Botón de carrito -->
+<div class="mi-carrito-btn-container">
+    <button class="mi-carrito-btn" onclick="mostrarCarrito()">MI CARRITO</button>
+</div>
+
 
     <div class="catalogo" id="catalogo">
         <!-- Los productos se cargarán aquí dinámicamente -->
@@ -445,8 +467,6 @@ body {
         });
 
         function mostrarCarrito() {
-            document.querySelector('.catalogo').style.display = 'none';
-            document.querySelector('.filter-buttons').style.display = 'none';
             document.getElementById('carrito').style.display = 'block';
 
             const carritoDiv = document.getElementById('carrito-lista');
