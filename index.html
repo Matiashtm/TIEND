@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Catálogo Online</title>
     <style>
 body {
@@ -24,6 +25,20 @@ body {
     align-items: center;
     min-height: 200px;
 }
+.bannercorreo {
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 35px;
+    background-size: cover; /* Asegura que la imagen cubra todo el div */
+    background-position: center; /* Centra la imagen en el div */
+}
+
 
 .banner img {
     width: 90%;
@@ -322,16 +337,117 @@ body {
 .mi-carrito-btn:hover {
     background-color: #45a049; /* Color de fondo en hover */
 }
+#formulario_compra {
+    display: none;
+    background: white;
+    padding: 20px;
+    max-width: 400px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+#formulario_compra label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+#formulario_compra input[type="text"],
+#formulario_compra select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+#formulario_compra button {
+    width: 100%;
+    padding: 10px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#formulario_compra button:hover {
+    background-color: darkgreen;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    font-family: Arial, sans-serif;
+}
+
+.modal-contenido {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.cerrar {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cerrar:hover,
+.cerrar:focus {
+    color: black;
+    text-decoration: none;
+}
+
+button {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: darkgreen;
+}
+
+
 
     </style>
 </head>
 <body>
-
     <div class="banner">
         <img src="Logo.png" alt="Logo">
         <h1>Catálogo de Productos</h1>
     </div>
+    <div class="bannercorreo" onclick="window.location.href = 'https://www.correoargentino.com.ar/MiCorreo/public/'">
+    </div>
 
+<div class="inicial">
     <!-- Botones de filtro -->
     <div class="filter-buttons">
         <button onclick="filtrarProductos('TODOS')">TODOS</button>
@@ -342,6 +458,7 @@ body {
 
 <!-- Botón de carrito -->
 <div class="mi-carrito-btn-container">
+    <i class="fa-solid fa-cart-shopping"></i>
     <button class="mi-carrito-btn" onclick="mostrarCarrito()">MI CARRITO</button>
 </div>
 
@@ -349,7 +466,7 @@ body {
     <div class="catalogo" id="catalogo">
         <!-- Los productos se cargarán aquí dinámicamente -->
     </div>
-
+</div>
     <!-- Div para la consulta -->
     <div class="overlay" id="consulta-overlay">
         <div class="consulta">
@@ -366,41 +483,73 @@ body {
 
     <!-- Div del carrito -->
     <div class="carrito" id="carrito">
-        <div class="total-compra" id="total-compra">TOTAL DE COMPRA: $0</div>
-        <div id="carrito-lista">
-            <!-- Los productos del carrito se cargarán aquí dinámicamente -->
+        <div id="carrito_compra">
+            <div class="total-compra" id="total-compra">TOTAL DE COMPRA: $0</div>
+            <div id="carrito-lista">
+                <!-- Los productos del carrito se cargarán aquí dinámicamente -->
+            </div>
+            <button onclick="volverCatalogo()">Volver al Catálogo</button>
+            <button onclick="solicitarCompra()">Solicita la Compra</button>
         </div>
-        <button onclick="volverCatalogo()">Volver al Catálogo</button>
-        <button onclick="solicitarCompra()">Solicita la Compra</button>
+        <div id="formulario_compra">
+                <label for="nombreCliente">Nombre del cliente:</label>
+                <input type="text" id="nombreCliente" placeholder="Ingrese su nombre">
+
+                <label for="metodoPago">Seleccione medio de pago:</label>
+                <select id="metodoPago">
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="EFECTIVO">EFECTIVO</option>
+                    <option value="MERCADO PAGO">MERCADO PAGO</option>
+                    <option value="TRANSFERENCIA BANCARIA">TRANSFERENCIA BANCARIA</option>
+                </select>
+                <button onclick="procesarCompra()">Confirmar</button>
+            </div>
+            <div id="confirmar_whatsapp" class="confirmar_whatsapp">
+                <img src="ventaok.png" alt="Confirmación de venta" style="max-width: 100%; height: auto;margin-left:20px ">
+                <button style="background-color: green; color: white; border: none; padding: 10px 20px; cursor: pointer;" onclick="enviar_whatsapp()">ENVIAR CÓDIGO</button>
+            </div>
+
     </div>
+    <div id="modalAlerta" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar" onclick="cerrarModal()">&times;</span>
+        <p id="mensajeModal"></p>
+        <button onclick="cerrarModal()">Aceptar</button>
+    </div>
+</div>
+
 
     <script>
+        document.getElementById('confirmar_whatsapp').style.display = 'none';
+        document.getElementById('formulario_compra').style.display = 'none';
+       
+
 const productos = {
     TODOS: [
-     { nombre: "ZAPATILLA DEPORTIVA 1", codigo: "COD200", descripcion: "Zapatilla deportiva de alto rendimiento", precio: 120, imagen: "foto1.jpg", categoria: "ZAPATILLAS", talles: "37,38,39,40,41" },
-        { nombre: "ZAPATILLA DEPORTIVA 2", codigo: "COD201", descripcion: "Zapatilla deportiva con amortiguación avanzada", precio: 130, imagen: "foto2.jpg", categoria: "ZAPATILLAS", talles: "36,38,39,40,42" },
-        { nombre: "ZAPATILLA URBANA 1", codigo: "COD202", descripcion: "Zapatilla urbana con diseño moderno", precio: 110, imagen: "foto3.jpg", categoria: "ZAPATILLAS", talles: "37,38,39,41,42" },
-        { nombre: "ZAPATO FORMAL 1", codigo: "COD300", descripcion: "Zapato formal de cuero para ocasiones especiales", precio: 150, imagen: "foto4.jpg", categoria: "ZAPATOS", talles: "39,40,41,42,43" },
-        { nombre: "ZAPATO CASUAL 1", codigo: "COD301", descripcion: "Zapato casual con diseño elegante", precio: 140, imagen: "foto5.jpg", categoria: "ZAPATOS", talles: "38,39,40,41" },
-        { nombre: "ZAPATO DE CUERO 1", codigo: "COD302", descripcion: "Zapato de cuero genuino con confort extra", precio: 160, imagen: "foto6.jpg", categoria: "ZAPATOS", talles: "40,41,42,43" },
-        { nombre: "ZAPATILLA NIÑO 1", codigo: "COD400", descripcion: "Zapatilla para niños con suela antideslizante", precio: 90, imagen: "foto7.jpg", categoria: "NIÑOS", talles: "32,33,34,35" },
-        { nombre: "ZAPATILLA NIÑO 2", codigo: "COD401", descripcion: "Zapatilla infantil con cierre de velcro", precio: 85, imagen: "foto8.jpg", categoria: "NIÑOS", talles: "31,32,33,34" },
-        { nombre: "ZAPATO NIÑO 1", codigo: "COD402", descripcion: "Zapato infantil para eventos formales", precio: 100, imagen: "foto9.jpg", categoria: "NIÑOS", talles: "33,34,35,36" }
+        { nombre: "ZAPATILLA DEPORTIVA 1", codigo: "COD200", descripcion: "Zapatilla deportiva de alto rendimiento", precio: 120, precio_mayorista: 100, imagen: "foto1.jpg", categoria: "ZAPATILLAS", talles: "37,38,39,40,41" },
+        { nombre: "ZAPATILLA DEPORTIVA 2", codigo: "COD201", descripcion: "Zapatilla deportiva con amortiguación avanzada", precio: 130, precio_mayorista: 100, imagen: "foto2.jpg", categoria: "ZAPATILLAS", talles: "36,38,39,40,42" },
+        { nombre: "ZAPATILLA URBANA 1", codigo: "COD202", descripcion: "Zapatilla urbana con diseño moderno", precio: 110, precio_mayorista: 100, imagen: "foto3.jpg", categoria: "ZAPATILLAS", talles: "37,38,39,41,42" },
+        { nombre: "ZAPATO FORMAL 1", codigo: "COD300", descripcion: "Zapato formal de cuero para ocasiones especiales", precio: 150, precio_mayorista: 100, imagen: "foto4.jpg", categoria: "ZAPATOS", talles: "39,40,41,42,43" },
+        { nombre: "ZAPATO CASUAL 1", codigo: "COD301", descripcion: "Zapato casual con diseño elegante", precio: 140, precio_mayorista: 100, imagen: "foto5.jpg", categoria: "ZAPATOS", talles: "38,39,40,41" },
+        { nombre: "ZAPATO DE CUERO 1", codigo: "COD302", descripcion: "Zapato de cuero genuino con confort extra", precio: 160, precio_mayorista: 100, imagen: "foto6.jpg", categoria: "ZAPATOS", talles: "40,41,42,43" },
+        { nombre: "ZAPATILLA NIÑO 1", codigo: "COD400", descripcion: "Zapatilla para niños con suela antideslizante", precio: 90, precio_mayorista: 100, imagen: "foto7.jpg", categoria: "NIÑOS", talles: "32,33,34,35" },
+        { nombre: "ZAPATILLA NIÑO 2", codigo: "COD401", descripcion: "Zapatilla infantil con cierre de velcro", precio: 85, precio_mayorista: 100, imagen: "foto8.jpg", categoria: "NIÑOS", talles: "31,32,33,34" },
+        { nombre: "ZAPATO NIÑO 1", codigo: "COD402", descripcion: "Zapato infantil para eventos formales", precio: 100, precio_mayorista: 100, imagen: "foto9.jpg", categoria: "NIÑOS", talles: "33,34,35,36" }
     ],
     ZAPATILLAS: [
-        { nombre: "ZAPATILLA DEPORTIVA 1", codigo: "COD200", descripcion: "Zapatilla deportiva de alto rendimiento", precio: 120, imagen: "foto1.jpg", categoria: "ZAPATILLAS", talles: "37,38,39,40,41" },
-        { nombre: "ZAPATILLA DEPORTIVA 2", codigo: "COD201", descripcion: "Zapatilla deportiva con amortiguación avanzada", precio: 130, imagen: "foto2.jpg", categoria: "ZAPATILLAS", talles: "36,38,39,40,42" },
-        { nombre: "ZAPATILLA URBANA 1", codigo: "COD202", descripcion: "Zapatilla urbana con diseño moderno", precio: 110, imagen: "foto3.jpg", categoria: "ZAPATILLAS", talles: "37,38,39,41,42" }
+        { nombre: "ZAPATILLA DEPORTIVA 1", codigo: "COD200", descripcion: "Zapatilla deportiva de alto rendimiento", precio: 120, precio_mayorista: 100, imagen: "foto1.jpg", categoria: "ZAPATILLAS", talles: "37,38,39,40,41" },
+        { nombre: "ZAPATILLA DEPORTIVA 2", codigo: "COD201", descripcion: "Zapatilla deportiva con amortiguación avanzada", precio: 130, precio_mayorista: 100, imagen: "foto2.jpg", categoria: "ZAPATILLAS", talles: "36,38,39,40,42" },
+        { nombre: "ZAPATILLA URBANA 1", codigo: "COD202", descripcion: "Zapatilla urbana con diseño moderno", precio: 110, precio_mayorista: 100, imagen: "foto3.jpg", categoria: "ZAPATILLAS", talles: "37,38,39,41,42" }
     ],
     ZAPATOS: [
-        { nombre: "ZAPATO FORMAL 1", codigo: "COD300", descripcion: "Zapato formal de cuero para ocasiones especiales", precio: 150, imagen: "foto4.jpg", categoria: "ZAPATOS", talles: "39,40,41,42,43" },
-        { nombre: "ZAPATO CASUAL 1", codigo: "COD301", descripcion: "Zapato casual con diseño elegante", precio: 140, imagen: "foto5.jpg", categoria: "ZAPATOS", talles: "38,39,40,41" },
-        { nombre: "ZAPATO DE CUERO 1", codigo: "COD302", descripcion: "Zapato de cuero genuino con confort extra", precio: 160, imagen: "foto6.jpg", categoria: "ZAPATOS", talles: "40,41,42,43" }
+        { nombre: "ZAPATO FORMAL 1", codigo: "COD300", descripcion: "Zapato formal de cuero para ocasiones especiales", precio: 150, precio_mayorista: 100, imagen: "foto4.jpg", categoria: "ZAPATOS", talles: "39,40,41,42,43" },
+        { nombre: "ZAPATO CASUAL 1", codigo: "COD301", descripcion: "Zapato casual con diseño elegante", precio: 140, precio_mayorista: 100, imagen: "foto5.jpg", categoria: "ZAPATOS", talles: "38,39,40,41" },
+        { nombre: "ZAPATO DE CUERO 1", codigo: "COD302", descripcion: "Zapato de cuero genuino con confort extra", precio: 160, precio_mayorista: 100, imagen: "foto6.jpg", categoria: "ZAPATOS", talles: "40,41,42,43" }
     ],
     NIÑOS: [
-        { nombre: "ZAPATILLA NIÑO 1", codigo: "COD400", descripcion: "Zapatilla para niños con suela antideslizante", precio: 90, imagen: "foto7.jpg", categoria: "NIÑOS", talles: "32,33,34,35" },
-        { nombre: "ZAPATILLA NIÑO 2", codigo: "COD401", descripcion: "Zapatilla infantil con cierre de velcro", precio: 85, imagen: "foto8.jpg", categoria: "NIÑOS", talles: "31,32,33,34" },
-        { nombre: "ZAPATO NIÑO 1", codigo: "COD402", descripcion: "Zapato infantil para eventos formales", precio: 100, imagen: "foto9.jpg", categoria: "NIÑOS", talles: "33,34,35,36" }
+        { nombre: "ZAPATILLA NIÑO 1", codigo: "COD400", descripcion: "Zapatilla para niños con suela antideslizante", precio: 90, precio_mayorista: 100, imagen: "foto7.jpg", categoria: "NIÑOS", talles: "32,33,34,35" },
+        { nombre: "ZAPATILLA NIÑO 2", codigo: "COD401", descripcion: "Zapatilla infantil con cierre de velcro", precio: 85, precio_mayorista: 100, imagen: "foto8.jpg", categoria: "NIÑOS", talles: "31,32,33,34" },
+        { nombre: "ZAPATO NIÑO 1", codigo: "COD402", descripcion: "Zapato infantil para eventos formales", precio: 100, precio_mayorista: 100, imagen: "foto9.jpg", categoria: "NIÑOS", talles: "33,34,35,36" }
     ]
 };
 
@@ -417,14 +566,16 @@ const productos = {
                 productoDiv.dataset.descripcion = producto.descripcion;
                 productoDiv.dataset.foto = producto.imagen;
                 productoDiv.dataset.precio = producto.precio;
+                productoDiv.dataset.precio_mayorista = producto.precio_mayorista;
                 productoDiv.dataset.talles = producto.talles;
 
                 productoDiv.innerHTML = `
                     <img src="${producto.imagen}" alt="Imagen del producto">
                     <h2>${producto.nombre}</h2>
                     <p>Descripción: ${producto.descripcion}</p>
-                    <p class="precio">Precio: $${producto.precio}</p>
-                    <button onclick="mostrarConsulta('${producto.nombre}', '${producto.codigo}', '${producto.descripcion}', '${producto.imagen}', '${producto.precio}', '${producto.talles}')">Agregar al Carrito</button>
+                    <p class="precio">Precio Minorista: $${producto.precio}</p>
+                    <p class="precio">Precio Mayorista: $${producto.precio_mayorista}</p>
+                    <button onclick="mostrarConsulta('${producto.nombre}', '${producto.codigo}', '${producto.descripcion}', '${producto.imagen}', '${producto.precio}','${producto.precio_mayorista}', '${producto.talles}')"> Ver Detalles </button>
                 `;
 
                 catalogoDiv.appendChild(productoDiv);
@@ -437,7 +588,8 @@ const productos = {
             document.getElementById('consulta-titulo').textContent = nombre;
             document.getElementById('consulta-codigo').textContent = `Código: ${codigo}`;
             document.getElementById('consulta-descripcion').textContent = `Descripción: ${descripcion}`;
-            document.getElementById('consulta-precio').textContent = `Precio: $${precio}`;
+            document.getElementById('consulta-precio').textContent = `Precio Minorista: $${precio}`;
+            document.getElementById('consulta-precio_mayorista').textContent = `Precio precio_mayorista: $${precio_mayorista}`;
 
             const tallesArray = talles.split(',');
             const tallesList = tallesArray.map(talle => `<option value="${talle}">${talle}</option>`).join('');
@@ -468,7 +620,7 @@ const productos = {
             carrito.push(producto);
             localStorage.setItem('carrito', JSON.stringify(carrito));
 
-            alert('Producto agregado al carrito.');
+            mostrarModal('Producto agregado al carrito.');
             document.getElementById('consulta-overlay').style.display = 'none';
         });
 
@@ -525,13 +677,140 @@ const productos = {
             document.getElementById('carrito').style.display = 'none';
         }
 
-        function solicitarCompra() {
-            alert('Solicitud de compra enviada. Gracias por su compra.');
-        }
+// Declarar la variable fuera de las funciones para que sea accesible en ambas
+let memoria_codigo_de_compra;
+
+async function solicitarCompra() {
+    // Mostrar formulario de compra y ocultar las otras secciones
+    document.getElementById('carrito_compra').style.display = 'none';
+    document.getElementById('confirmar_whatsapp').style.display = 'none';
+    document.getElementById('formulario_compra').style.display = 'block';
+}
+
+async function procesarCompra() {
+    // Obtener el nombre del cliente y el método de pago seleccionados
+    const cliente = document.getElementById('nombreCliente').value;
+    const medioPago = document.getElementById('metodoPago').value;
+
+    // Validar que se hayan ingresado datos
+    if (!cliente) {
+        return mostrarModal("Debe ingresar un nombre de cliente.");
+    }
+
+    if (!medioPago) {
+        return mostrarModal("Debe seleccionar un medio de pago.");
+    }
+
+    // Guardar nombre del cliente y medio de pago en localStorage
+    localStorage.setItem('cliente', cliente);
+    localStorage.setItem('medioPago', medioPago);
+
+    // Leer el carrito del localStorage
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+    if (carrito.length === 0) return alert("El carrito está vacío.");
+
+    try {
+        // Obtener el código de compra incrementado
+        const response = await fetch('https://sheet.best/api/sheets/b72462f6-97d1-4d47-bab4-b3db0aaea342');
+        const data = await response.json();
+        const maxCodigoCompra = Math.max(...data.map(row => parseInt(row['codigo.compra'] || 0)));
+        memoria_codigo_de_compra = maxCodigoCompra + 1;
+
+        // Preparar los datos a enviar a Sheetbest
+        const promises = carrito.map(producto => {
+            const nuevoDato = {
+                "codigo.compra": memoria_codigo_de_compra,
+                "cliente": cliente,
+                "medio de pago": medioPago,
+                "cantidad": producto.cantidad,
+                "codigo": producto.codigo,
+                "descripcion": producto.descripcion,
+                "foto": producto.foto,
+                "nombre": producto.nombre,
+                "precio": producto.precio,
+                "talle": producto.talle,
+                "total": producto.total
+            };
+
+            return fetch('https://sheet.best/api/sheets/b72462f6-97d1-4d47-bab4-b3db0aaea342', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(nuevoDato)
+            });
+        });
+
+        // Enviar todas las filas a Sheetbest
+        await Promise.all(promises);
+
+        // Mostrar el div de confirmación de WhatsApp y ocultar el formulario
+        document.getElementById('formulario_compra').style.display = 'none';
+        document.getElementById('confirmar_whatsapp').style.display = 'block';
+
+    } catch (error) {
+        console.error('Error:', error);
+        mostrarModal('OCURRIO UN ERROR VUELVE A INTENTARLO. DISCULPAS POR LAS MOLESTIAS.');
+    }
+}
+
+async function enviar_whatsapp() {
+    const cliente = localStorage.getItem('cliente');
+    const medioPago = localStorage.getItem('medioPago');
+    const codigoCompra = memoria_codigo_de_compra;
+
+    const mensajeWhatsApp = `¡Nueva compra! Código de compra: ${codigoCompra}\nCliente: ${cliente}\nMétodo de pago: ${medioPago}`;
+    const urlWhatsApp = `https://api.whatsapp.com/send?phone=1173600681&text=${encodeURIComponent(mensajeWhatsApp)}`;
+
+    window.open(urlWhatsApp, '_blank');
+    localStorage.removeItem('carrito');
+    mostrarModal('Mensaje de WhatsApp enviado. Gracias por su compra.');
+    localStorage.removeItem('carrito');
+    document.getElementById('carrito_compra').style.display = 'none';
+    document.getElementById('confirmar_whatsapp').style.display = 'none';
+    document.getElementById('carrito').style.display = 'none';
+
+}
+
+
 
         window.onload = function() {
             filtrarProductos('TODOS');
         };
+
+function startBackgroundRotation() {
+    const images = [
+        'correo1.jpg',
+        'correo2.jpg',
+        'correo3.jpg'
+    ];
+
+    let currentIndex = 0;
+    const bannerDiv = document.querySelector('.bannercorreo');
+
+    function changeBackgroundImage() {
+        bannerDiv.style.backgroundImage = `url(${images[currentIndex]})`;
+        currentIndex = (currentIndex + 1) % images.length;
+    }
+
+    setInterval(changeBackgroundImage, 2000);
+
+    // Inicia con la primera imagen
+    changeBackgroundImage();
+}
+
+
+startBackgroundRotation();
+function mostrarModal(mensaje) {
+    document.getElementById('mensajeModal').textContent = mensaje;
+    document.getElementById('modalAlerta').style.display = 'block';
+}
+
+function cerrarModal() {
+    document.getElementById('modalAlerta').style.display = 'none';
+}
+
     </script>
 
 </body>
