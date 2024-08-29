@@ -15,6 +15,7 @@ body {
 
 .banner {
     background-color: black;
+    background-image: url('correo1.jpg');
     color: white;
     text-align: center;
     padding: 20px;
@@ -779,26 +780,7 @@ async function enviar_whatsapp() {
             filtrarProductos('TODOS');
         };
 
-function startBackgroundRotation() {
-    const images = [
-        'correo1.jpg',
-        'correo2.jpg',
-        'correo3.jpg'
-    ];
 
-    let currentIndex = 0;
-    const bannerDiv = document.querySelector('.bannercorreo');
-
-    function changeBackgroundImage() {
-        bannerDiv.style.backgroundImage = `url(${images[currentIndex]})`;
-        currentIndex = (currentIndex + 1) % images.length;
-    }
-
-    setInterval(changeBackgroundImage, 2000);
-
-    // Inicia con la primera imagen
-    changeBackgroundImage();
-}
 
 
 startBackgroundRotation();
