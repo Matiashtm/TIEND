@@ -476,6 +476,7 @@ button:hover {
             <p id="consulta-codigo">Código: </p>
             <p id="consulta-descripcion">Descripción: </p>
             <p id="consulta-precio">Precio: </p>
+            <p id="consulta-precio_mayorista">Precio Mayorista: </p>
             <p id="consulta-talles">Talles: </p>
             <input type="number" id="cantidad" placeholder="Cantidad" min="1" value="1">
             <button id="agregar-carrito">Agregar al Carrito</button>
@@ -583,43 +584,52 @@ const productos = {
             });
         }
 
-        function mostrarConsulta(nombre, codigo, descripcion, foto, precio, talles) {
+        function mostrarConsulta(nombre, codigo, descripcion, foto, precio,precio_mayorista, talles) {
             document.getElementById('consulta-overlay').style.display = 'flex';
             document.getElementById('consulta-img').src = foto;
             document.getElementById('consulta-titulo').textContent = nombre;
             document.getElementById('consulta-codigo').textContent = `Código: ${codigo}`;
             document.getElementById('consulta-descripcion').textContent = `Descripción: ${descripcion}`;
             document.getElementById('consulta-precio').textContent = `Precio Minorista: $${precio}`;
-            document.getElementById('consulta-precio_mayorista').textContent = `Precio precio_mayorista: $${precio_mayorista}`;
+            document.getElementById('consulta-precio_mayorista').textContent = `Precio precio mayorista: $${precio_mayorista}`;
 
             const tallesArray = talles.split(',');
             const tallesList = tallesArray.map(talle => `<option value="${talle}">${talle}</option>`).join('');
             document.getElementById('consulta-talles').innerHTML = `Talles: <select id="talles">${tallesList}</select>`;
         }
 
-        document.getElementById('agregar-carrito').addEventListener('click', function() {
-            const cantidad = document.getElementById('cantidad').value;
-            const nombre = document.getElementById('consulta-titulo').textContent;
-            const codigo = document.getElementById('consulta-codigo').textContent.split(': ')[1];
-            const descripcion = document.getElementById('consulta-descripcion').textContent.split(': ')[1];
-            const foto = document.getElementById('consulta-img').src;
-            const precio = parseFloat(document.querySelector(`.producto[data-codigo="${codigo}"]`).dataset.precio);
-            const talle = document.getElementById('talles').value;
+document.getElementById('agregar-carrito').addEventListener('click', function() {
+    const cantidad = parseInt(document.getElementById('cantidad').value);
+    const nombre = document.getElementById('consulta-titulo').textContent;
+    const codigo = document.getElementById('consulta-codigo').textContent.split(': ')[1];
+    const descripcion = document.getElementById('consulta-descripcion').textContent.split(': ')[1];
+    const foto = document.getElementById('consulta-img').src;
+    const precio = parseFloat(document.querySelector(`.producto[data-codigo="${codigo}"]`).dataset.precio);
+    const precio_mayorista = parseFloat(document.querySelector(`.producto[data-codigo="${codigo}"]`).dataset.precio_mayorista);
+    const talle = document.getElementById('talles').value;
+    
+    var precio_final;
 
-            const producto = {
-                nombre,
-                codigo,
-                descripcion,
-                foto,
-                precio,
-                cantidad: parseInt(cantidad),
-                total: parseFloat(precio) * parseInt(cantidad),
-                talle
-            };
+    if (cantidad === 1) {
+        precio_final = precio;
+    } else {
+        precio_final = precio_mayorista;
+    }
 
-            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-            carrito.push(producto);
-            localStorage.setItem('carrito', JSON.stringify(carrito));
+    const producto = {
+        nombre,
+        codigo,
+        descripcion,
+        foto,
+        precio_final,
+        cantidad,
+        total: precio_final * cantidad,
+        talle
+    };
+
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    carrito.push(producto);
+    localStorage.setItem('carrito', JSON.stringify(carrito));
 
             mostrarModal('Producto agregado al carrito.');
             document.getElementById('consulta-overlay').style.display = 'none';
@@ -651,7 +661,7 @@ const productos = {
                         <h3>${producto.nombre}</h3>
                         <p>Código: ${producto.codigo}</p>
                         <p>Descripción: ${producto.descripcion}</p>
-                        <p>Precio: $${producto.precio}</p>
+                        <p>Precio: $${producto.precio_final}</p>
                         <p>Cantidad: ${producto.cantidad}</p>
                         <p>Talle: ${producto.talle}</p>
                         <p>Total: $${producto.total}</p>
