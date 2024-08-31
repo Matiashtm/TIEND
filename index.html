@@ -778,7 +778,7 @@ async function enviar_whatsapp() {
     const codigoCompra = memoria_codigo_de_compra;
 
     const mensajeWhatsApp = `¡Nueva compra! Código de compra: ${codigoCompra}\nCliente: ${cliente}\nMétodo de pago: ${medioPago}`;
-    const urlWhatsApp = `https://api.whatsapp.com/send?phone=1173600681&text=${encodeURIComponent(mensajeWhatsApp)}`;
+    const urlWhatsApp = `https://api.whatsapp.com/send?phone=1173606424&text=${encodeURIComponent(mensajeWhatsApp)}`;
 
     window.open(urlWhatsApp, '_blank');
     localStorage.removeItem('carrito');
